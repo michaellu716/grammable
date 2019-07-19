@@ -18,7 +18,7 @@ RSpec.describe GramsController, type: :controller do
     end
     it "should allow a user to destroy grams" do
        gram = FactoryBot.create(:gram)
-       sign_in gram.users
+       sign_in gram.user
        delete :destroy, params: { id: gram.id }
        expect(response).to redirect_to root_path
        gram = Gram.find_by_id(gram.id)
@@ -137,6 +137,10 @@ end
     end
   end
   describe "grams#create action" do
+     it "should require users to be logged in" do
+      post :create, params: { gram: { message: "Hello" } }
+      expect(response).to redirect_to new_user_session_path
+    end
   	 it "should successfully create a new gram in our database" do
        user = FactoryBot.create(:user)
        sign_in user
@@ -164,3 +168,5 @@ end
       expect(gram_count).to eq Gram.count
   end
 end
+
+
