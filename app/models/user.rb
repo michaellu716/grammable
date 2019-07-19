@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :grams       
   has_many :comments
+
+  validates :username, presence: :true, uniqueness: { case_sensitive: false }
 end
